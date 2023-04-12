@@ -61,7 +61,7 @@ int main () {
              perguntaPalavra();
   
   if (rastreia()==false){
-  	    printf("palavra na� encontrada");
+  	    printf("palavra não encontrada");
   	     system("pause");
   	    return 0 ;
   } else{printf("palavra encontrada");
