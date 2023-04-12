@@ -1,13 +1,15 @@
 /*- sortear uma matriz 25 X 25 contendo letras do alfabeto
 - ler o arquivo de palavras e sortear uma palavra
-- inserir palavra aleatoriamente na tabela (a ordem tamb�m deve ser aleat�ria)
+- inserir palavra aleatoriamente na tabela (a ordem também deve ser aleatória)
 - apresentar a matriz
-- solicitar ao usu�rio uma palavra
-- informar ao usu�rio caso a palavra digitada esteja na matriz (� a que foi sorteada)
+- solicitar ao usuário uma palavra
+- informar ao usuário caso a palavra digitada esteja na matriz ( a que foi sorteada)
 
-obs. A propor��o para sorteio dos caracteres na matriz dever� ser 2:3, ou seja, para cada 3 caracteres sorteados, 2 deles dever�o ser vogais
+obs. A proporção para sorteio dos caracteres na matriz deverá ser 2:3, ou seja, para cada 3 caracteres sorteados, 2 deles dever�o ser vogais
 
-Parte do c�digo est� abaixo:*/
+Parte do código está abaixo:
+CREDITOS PELA ELABORAÇÃO DO ENUNCIADO: PROFº ALEXANDRE MORENO.
+*/
 
 //sorteia vogal x consoante x vogal para montar matriz
 #include<locale.h>
@@ -24,6 +26,8 @@ int qpal=0;
 char palavras[maxpal][20];
 char palavrasorteada[20];
 char palEscolhida[20];
+int colum,row,aux,tamP;//jpCriou-sorteiaDLC
+char direction[10];//JpCriou-sorteiaDLC
 
 bool abreArquivo();
 void leArquivo();
@@ -32,41 +36,38 @@ void mostraPalavras();
 
 char pal[tam][tam];
 void sorteia();// feito
-void colocapalavra();// feito
+void SorteiaDLC();// feito
+void ColocaPalavra();//em andamento
 void perguntaPalavra(); // falta fazer
-bool rastreia(); // falta fazer
+//bool rastreia(); // falta fazer
 void mostra(); //feito
 //---------------------------------------------
 int main () {
  setlocale(LC_ALL, "portuguese");	
   srand(time(NULL));
-  if (abreArquivo()==0)
+    if (abreArquivo()==0)
      return 0;
-  leArquivo();
+        leArquivo();
  // mostraPalavras();
-  strcpy(palavrasorteada,palavras[rand()%maxpal]);
-  printf("%s \n",palavrasorteada);
+        strcpy(palavrasorteada,palavras[rand()%maxpal]);
+        printf("%s \n",palavrasorteada);
   //system("pause");
   
  
   sorteia();
-  colocapalavra();
-  mostra();
-  perguntaPalavra();
+   SorteiaDLC();
+    ColocaPalavra();
+         mostra();
+             perguntaPalavra();
   
   if (rastreia()==false){
-  	printf("palavra na� encontrada");
-  	system("pause");
-  	return 0 ;
-  }else printf("palavra encontrada");
-  	system("pause");
-  
-   
-  
-  
-  
-  
-  
+  	    printf("palavra na� encontrada");
+  	     system("pause");
+  	    return 0 ;
+  } else{printf("palavra encontrada");
+  	    system("pause");}
+     
+        
   
 }
 //---------------------------------------------
@@ -88,6 +89,7 @@ bool abreArquivo(){
 void leArquivo(){
    arqpal = fopen("palavras.txt", "r"); //leitura
    qpal=0;
+
    while (!feof(arqpal))
    {
       //fgets(string,tamanho,arquivo)
@@ -104,22 +106,22 @@ void sorteia(){
   char con[22]="BCDFGHJKLMNPQRSTVXWYZ";
   int cont=1;
   //A=65   Z=90
-  for (int x=0; x<tam; x++)
-    for (int y=0; y<tam; y++){
-      if (cont==1 || cont==3)
-      { 
-         pal[x][y]=vog[rand()%5];
-      }   
-      else
-      {
-         pal[x][y]=con[rand()%21];
-      }   
-      cont++;
-      if (cont>3)
-      {
-        cont=1;
-      }  
-    }      
+    for (int x=0; x<tam; x++){ 
+        for (int y=0; y<tam; y++){
+            if (cont==1 || cont==3){ 
+                pal[x][y]=vog[rand()%5];
+
+            }else{
+                 pal[x][y]=con[rand()%21];
+                } 
+
+            cont++;
+            if (cont>3){
+                    cont=1;
+            }  
+        }      
+  }
+    
 }
 //---------------------------------------------
 void mostra(){
@@ -141,16 +143,12 @@ for (int x=0; x<qpal; x++){
 
 //--------------------------------------------
 
-void colocapalavra(){
-  	
-  int colum,row,aux,tamP,apaga;
-  char direction[10];
-  int y=0,x=0;
-  
+void SorteiaDLC(){
+  	  
    aux=(rand()%3);
-   colum=(rand()%24);
-   row=(rand()%24);
-   tamP=strlen(palavrasorteada);
+    colum=(rand()%24);
+     row=(rand()%24);
+      tamP=strlen(palavrasorteada);
    
    
 	if(aux==0){
@@ -180,75 +178,78 @@ void colocapalavra(){
                               colum=(rand()%24);
 	                             }	
 	
+    printf("Tamanho da palavra: %i, Direção:%s, Coluna:%i Linha:%i  \n\n\n",tamP, direction, colum, row);
 	
-	
-	if (strcmp(direction, "cima") == 0) {
-	
-     	 
-     	 x=row;
-     	 
-         while(y<tamP){
-		    pal[x][colum]=palavrasorteada[y];
-			x--;
-	        y++;
-		 }
-		 
-	}else if (strcmp(direction, "baixo") == 0) {
-	     	  x=row;
-	     	 
-	         while(y<tamP){
-			    pal[x][colum]=palavrasorteada[y];
-				x++;
-		        y++;
-			 }
-		}else if (strcmp(direction, "direita") == 0) {
-	     	  x=colum;
-	     	 
-	         while(y<tamP){
-			    pal[row][x]=palavrasorteada[y];
-				x++;
-		        y++;
-			 }
-		}else if (strcmp(direction, "esquerda") == 0) {
-	     	  x=colum;
-	     	 
-	         while(y<tamP){
-			    pal[row][x]=palavrasorteada[y];
-				x--;
-		        y++;
-			 }
-		}
+}	
+//--------------------------------------------------------
+
+void ColocaPalavra(){
+    int y=0,x=0;
+
+    if (strcmp(direction, "cima") == 0) {
+            x=row;
+
+                while(y<tamP){
+                    pal[x][colum]=palavrasorteada[y];
+                    x--;
+                    y++;
+                }
+            
+            }else if (strcmp(direction, "baixo") == 0) {
+                x=row;
+                    
+                    while(y<tamP){
+                        pal[x][colum]=palavrasorteada[y];
+                        x++;
+                        y++;
+                    }
+                }else if (strcmp(direction, "direita") == 0) {
+                    x=colum;
+                
+                        while(y<tamP){
+                            pal[row][x]=palavrasorteada[y];
+                            x++;
+                            y++;
+                        }
+                    }else if (strcmp(direction, "esquerda") == 0) {
+                            x=colum;
+                        
+                            while(y<tamP){
+                                pal[row][x]=palavrasorteada[y];
+                                x--;
+                                y++;
+                            }
+                        }
          	 
+}
+
+	
 		 
 	
 	
       	
       	
-	printf("Tamanho da palavra: %i, Dire��o:%s, Coluna:%i Linha:%i  \n\n\n",tamP, direction, colum, row);
 	
 	
         
         
-	        }	
+	        	
 	        
 	        
 void perguntaPalavra(){
 	 
-	 printf("Qual palavra voc� encontrou?");
+	 printf("Qual palavra você encontrou?");
 	 gets(palEscolhida);
 	   printf("%s",palEscolhida);
-	  rastreia();
-	
-	
-	 
-	
+	  rastreia();	
 	
 }	        
-	    
+/* 
+	    SUPOSTO ERRO: TRABALHA NELE
+
 		bool rastreia(){	
-		 char str1[25];
 		 char *aux;
-		 int z=0;
+         char str[24];
 		 
 		 
 	      for (int y=0; y==24; y++){   //procura para a direita
@@ -260,17 +261,17 @@ void perguntaPalavra(){
 			aux=strstr(str1,palEscolhida);
 			if (aux != NULL){
                   return true;//existe			
-			} else 
+			} else{ 
 			return false;
 			  
-			        // continua procurando
-						
+			        // continua procurando		
 			} 
 			
 		}
 		
-				/*	
+				
 					
+		*/		
 				
 				
 				
@@ -286,8 +287,7 @@ void perguntaPalavra(){
 				
 				
 				
-				
-				
+		/*		
 				for (int y=24; y==0; y--){   //procura para a esquerda
 					  z=0;
 					    for(int x=24; x==0; x--){
@@ -297,16 +297,8 @@ void perguntaPalavra(){
 							aux=strstr(str1,palavraEscolhida);
 								if (aux!= NULL){
 									return 1; //existe
-								}else  
-								
-						
-						   
-					}  
-		
-		
-		
-		   
-			
+								}else     
+					}  	
 		}    
 	     
 	     
