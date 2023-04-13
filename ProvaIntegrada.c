@@ -249,28 +249,36 @@ void perguntaPalavra(){
 
 		bool rastreia(){	
 		 char *aux;
-         char str[24];
-		 
-		 
-	      for (int y=0; y==24; y++){   //procura para a direita
-		    for(int x=0; x==24; x++){
-			  str1[x]=pal[x][y];  
-		    	
+         char str1[24];
+		 char inv_aux[tamP];
+		 bool existe=false;
+
+         while(existe!=true){
+               for (int y=0; y==24; y++){   //procura para a direita e depois esquerda
+                    for(int x=0; x==24; x++){
+                     str1[x]=pal[y][x];     
+                    }
+                    aux=strstr(str1,palEscolhida);
+                    if (aux != NULL){
+                        existe=true;//existe			
+                    } else{ 
+                            for(int z=tamP;z==0;z--){
+                                inv_aux[tamP-z]=palEscolhida[z];
+                                
+                            }
+                            
+                            aux=strstr(str1,inv_aux);
+
+                                if(aux != NULL){
+                                    existe=true;//existe
+                                }
+                        }
+                        
+                        // continua procurando		
+                } 
 			}
-			printf("%s \n", str1);
-			aux=strstr(str1,palEscolhida);
-			if (aux != NULL){
-                  return true;//existe			
-			} else{ 
-			return false;
-			  
-			        // continua procurando		
-			} 
-			
 		}
-		
 				
-					
 		*/		
 				
 				
