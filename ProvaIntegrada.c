@@ -18,6 +18,8 @@ CREDITOS PELA ELABORAÇÃO DO ENUNCIADO: PROFº ALEXANDRE MORENO.
 #include <string.h>
 #include <time.h>
 #include<stdbool.h>
+#include <ctype.h>
+
 #define tam 25
 #define maxpal 100
 
@@ -26,8 +28,9 @@ int qpal=0;
 char palavras[maxpal][20];
 char palavrasorteada[20];
 char palEscolhida[20];
-int colum,row,aux,tamP;//jpCriou-sorteiaDLC
+int colum,row,aux,tamP,tamPES;//jpCriou-sorteiaDLC
 char direction[10];//JpCriou-sorteiaDLC
+
 
 bool abreArquivo();
 void leArquivo();
@@ -39,7 +42,7 @@ void sorteia();// feito
 void SorteiaDLC();// feito
 void ColocaPalavra();//em andamento
 void perguntaPalavra(); // falta fazer
-//bool rastreia(); // falta fazer
+void rastreia(); // falta fazer
 void mostra(); //feito
 //---------------------------------------------
 int main () {
@@ -59,15 +62,7 @@ int main () {
     ColocaPalavra();
          mostra();
              perguntaPalavra();
-  
-  if (rastreia()==false){
-  	    printf("palavra não encontrada");
-  	     system("pause");
-  	    return 0 ;
-  } else{printf("palavra encontrada");
-  	    system("pause");}
-     
-        
+              //rastreia(); 
   
 }
 //---------------------------------------------
@@ -224,93 +219,50 @@ void ColocaPalavra(){
 }
 
 	
-		 
-	
-	
-      	
-      	
-	
-	
-        
-        
-	        	
-	        
+//-----------------------------------------------------------------------		        
 	        
 void perguntaPalavra(){
-	 
+
 	 printf("Qual palavra você encontrou?");
 	 gets(palEscolhida);
-	   printf("%s",palEscolhida);
-	  rastreia();	
-	
-}	        
-/* 
-	    SUPOSTO ERRO: TRABALHA NELE
+     tamPES=strlen(palEscolhida);
+     
+     for(int i=0; i<tamPES; i++) {
+        palEscolhida[i] = toupper(palEscolhida[i]);
+    }
+	   printf("%s",palEscolhida);	
+}	
+//-----------------------------------------------------------------------		        
 
-		bool rastreia(){	
-		 char *aux;
-         char str1[24];
-		 char inv_aux[tamP];
-		 bool existe=false;
+void rastreia(){
+  char rev_aux[tamPES];
+  int linha,coluna;
 
-         while(existe!=true){
-               for (int y=0; y==24; y++){   //procura para a direita e depois esquerda
-                    for(int x=0; x==24; x++){
-                     str1[x]=pal[y][x];     
-                    }
-                    aux=strstr(str1,palEscolhida);
-                    if (aux != NULL){
-                        existe=true;//existe			
-                    } else{ 
-                            for(int z=tamP;z==0;z--){
-                                inv_aux[tamP-z]=palEscolhida[z];
-                                
-                            }
-                            
-                            aux=strstr(str1,inv_aux);
+  //fazer isso enquanto cont=2 ou palavra encontrada
+  
+  for(linha=0;linha==24;linha ++){   //procura para direita
+        for(coluna=0;coluna==24;coluna ++){
+            str1[coluna]=pal[linha][coluna];//coloca uma linha dentro de uma big string
+        }
 
-                                if(aux != NULL){
-                                    existe=true;//existe
-                                }
-                        }
-                        
-                        // continua procurando		
-                } 
-			}
-		}
-				
-		*/		
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-		/*		
-				for (int y=24; y==0; y--){   //procura para a esquerda
-					  z=0;
-					    for(int x=24; x==0; x--){
-						  str1[z]=pal[x][y]  
-					    z++;	
-						}				
-							aux=strstr(str1,palavraEscolhida);
-								if (aux!= NULL){
-									return 1; //existe
-								}else     
-					}  	
-		}    
-	     
-	     
-	     
-	     
-	     
-*/
+        char *aux=strstr(str1,palEscolhida);//confirma se a sub string palEscolhida está na big string.
+        if (aux!=NULL){
+            printf("Palavra escolhida");
+            system("pause");
+        }
+
+          // se não estiver em nenhuma linha:
+    }   if (linha==24 && aux==NULL){//inverte palavra
+
+            for(int z=tamPES; z==0; z--){  //guarda a palavra escolhida em um aux.
+                rev_aux[tamPES-z]=palEscolhida[z];
+            }
+             for(int y=0; y==tamPES; y++){ //inverte a palavra para fazer o esquema inverso.
+                palEscolhida[y]=rev_aux[tamPES-y];
+             } 
+
+             linha=0;
+        }
+
+
+}
