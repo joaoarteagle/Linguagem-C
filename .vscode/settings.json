@@ -1,3 +1,9 @@
 {
-    "C_Cpp.errorSquiggles": "disabled"
+    "C_Cpp.errorSquiggles": "disabled",
+    "files.associations": {
+        "ctype.h": "c",
+        "time.h": "c",
+        "stdlib.h": "c",
+        "string.h": "c"
+    }
 }
