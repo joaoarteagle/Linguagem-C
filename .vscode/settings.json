@@ -4,6 +4,7 @@
         "ctype.h": "c",
         "time.h": "c",
         "stdlib.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "stdio.h": "c"
     }
 }
